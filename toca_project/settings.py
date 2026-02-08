@@ -103,9 +103,9 @@ STORAGES = {
     },
 }
 
-# Garanta que essas duas linhas estejam logo abaixo ou no fim do arquivo
+
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # Redirecionamentos de Login

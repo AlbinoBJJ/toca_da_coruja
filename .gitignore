@@ -5,5 +5,5 @@ db.sqlite3
 venv/
 env/
 staticfiles/
-media/
+media/capa_torneio/
 .vscode/
