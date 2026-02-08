@@ -12,8 +12,8 @@ from django.utils import timezone
 import requests
 from django.contrib.auth.models import User
 
+
 def home(request):
-    # Filtra apenas o torneio que está com inscrições abertas
     torneios_abertos = Torneio.objects.filter(status='ABERTO').order_by('data')
     return render(request, 'torneios/home.html', {'torneios': torneios_abertos})
 
@@ -23,51 +23,27 @@ def sobre(request):
 
 
 def detalhe_torneio(request, id):
-    # 1. Buscamos o torneio ou retornamos erro 404 se não existir
     torneio = get_object_or_404(Torneio, id=id)
-    
-    # 2. Renderizamos o template passando o torneio encontrado
     return render(request, 'torneios/detalhe_torneio.html', {'torneio': torneio})
 
 
 @login_required
 def inscrever_torneio(request, torneio_id):
-    # 1. Busca o torneio
-    torneio = get_object_or_404(Torneio, id=torneio_id)
-    
+    torneio = get_object_or_404(Torneio, id=torneio_id)   
     if request.method == 'POST':
-        # 2. Busca ou cria o perfil de Jogador do usuário logado
-        # Use o related_name ou get_or_create como você já fazia
         jogador, created = Jogador.objects.get_or_create(user=request.user)
-        
-        # 3. Adiciona o jogador ao torneio (Lógica ManyToMany que você já usa)
         torneio.participantes.add(jogador)
-        
-        # Mensagem de sucesso para o usuário
         messages.success(request, f'Inscrição confirmada no {torneio.nome}! 🏆')
-        
-        # 4. Redireciona para os detalhes (o parâmetro é 'id' conforme sua url)
         return redirect('detalhe_torneio', id=torneio.id)
-    
-    # Se tentarem acessar via link direto (GET), mandamos de volta
     return redirect('proximos_torneios')
 
 
 @login_required
 def desistir_torneio(request, torneio_id):
-    # 1. Busca o torneio
     torneio = get_object_or_404(Torneio, id=torneio_id)
-
-    # 2. Busca ou cria o perfil de Jogador do usuário logado
     jogador, created = Jogador.objects.get_or_create(user=request.user)
-
-    # 3. Adiciona o jogador ao torneio
     torneio.participantes.remove(jogador)
- 
-    # 4. Redireciona de volta para a página do torneio
-    # 'detalhe_torneio' é o nome na URL
     return redirect('detalhe_torneio', id=torneio.id)
-
 
 
 def cadastro(request):
@@ -84,16 +60,12 @@ def cadastro(request):
 
 
 def buscar_ratings_chesscom(username):
-    """Retorna os ratings de Blitz, Rapid e Bullet do Chess.com"""
     if not username:
         return None
-    
     url = f"https://api.chess.com/pub/player/{username}/stats"
-    # Lembre-se de colocar seu e-mail aqui para o Chess.com não te bloquear
     headers = {
         'User-Agent': 'TocaDaCoruja - seuemail@exemplo.com'
     }
-    
     try:
         response = requests.get(url, headers=headers, timeout=5)
         if response.status_code == 200:
@@ -107,11 +79,10 @@ def buscar_ratings_chesscom(username):
         print(f"Erro ao buscar Chess.com: {e}")
     return None
 
+
 def buscar_ratings_lichess(username):
-    """Retorna os ratings de Blitz, Rapid e Bullet do Lichess"""
     if not username:
         return None
-    
     url = f"https://lichess.org/api/user/{username}"
     try:
         response = requests.get(url, timeout=5)
@@ -127,6 +98,7 @@ def buscar_ratings_lichess(username):
         print(f"Erro ao buscar Lichess: {e}")
     return None
 
+
 @login_required
 def perfil(request):
     jogador = request.user.jogador
@@ -141,7 +113,6 @@ def perfil(request):
     else:
         form = JogadorForm(instance=jogador)
     
-    # Busca os ratings de ambas as plataformas
     ratings_chesscom = buscar_ratings_chesscom(jogador.username_chesscom)
     ratings_lichess = buscar_ratings_lichess(jogador.username_lichess)
 
@@ -153,27 +124,15 @@ def perfil(request):
     })
     
 
-
 def exportar_inscritos_csv(request, torneio_id):
     torneio = get_object_or_404(Torneio, id=torneio_id)
-    # Buscamos todos os participantes vinculados a este torneio
     jogadores = torneio.participantes.all()
-
-    # Criamos a resposta do Django como um arquivo CSV
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = f'attachment; filename="inscritos_{torneio.nome}.csv"'
-
-    writer = csv.writer(response, delimiter=';') # O Swiss Manager costuma aceitar ponto e vírgula
-
-    # Escrevemos o cabeçalho EXATO que o Swiss Manager espera
+    writer = csv.writer(response, delimiter=';')
     writer.writerow(['ID_No', 'Name', 'Sex', 'Fed', 'Clubnumber', 'ClubName', 'Birthday', 'Categ', 'Rtg_Nat'])
-
-    # Agora precisamos percorrer a lista de jogadores e escrever os dados
     for jogador in jogadores:
-    
         data_nasc = jogador.data_nascimento.strftime("%d/%m/%Y") if jogador.data_nascimento else ""
-        
-        # Escrevemos a linha no arquivo
         writer.writerow([
             jogador.id_cbx or "",
             jogador.nome_swiss(),
@@ -185,18 +144,16 @@ def exportar_inscritos_csv(request, torneio_id):
             jogador.categoria,
             jogador.rating_local or 0
         ])
-
     return response
 
 
 def proximos_torneios(request):
     agora = timezone.now()
-    # Filtra torneios com data maior ou igual a hoje, ordenando pelos mais próximos
     torneios = Torneio.objects.filter(data__gte=agora).order_by('data')
-    
     return render(request, 'torneios/proximos_torneios.html', {
         'torneios': torneios
     })
+
 
 @login_required
 def atualizar_dados(request):
@@ -204,21 +161,16 @@ def atualizar_dados(request):
         user = request.user
         novo_username = request.POST.get('username')
         novo_email = request.POST.get('email')
-
-        # 1. Verifica se o username já existe em outro usuário
         if User.objects.filter(username=novo_username).exclude(pk=user.pk).exists():
             messages.error(request, "Este nome de usuário já está em uso.")
-            return redirect('perfil_config') # Nome da sua rota de configurações
-
-        # 2. Atualiza os dados
+            return redirect('perfil_config')
         user.username = novo_username
         user.email = novo_email
         user.save()
-
         messages.success(request, "Seus dados foram atualizados com sucesso! ✅")
         return redirect('perfil_config')
-    
     return redirect('perfil_config')
+
 
 @login_required
 def perfil_config(request):

@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views # O ponto significa "deste mesmo diretório"
+from . import views
 
 urlpatterns = [
     path('', views.home, name='home'),

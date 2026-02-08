@@ -65,7 +65,7 @@ class Jogador(models.Model):
         
         partes = self.nome_completo.split()
         if len(partes) > 1:
-            # Pega o último nome e junta com o restante
+
             return f"{partes[-1].upper()}, {' '.join(partes[:-1])}"
         return self.nome_completo.upper()
 
