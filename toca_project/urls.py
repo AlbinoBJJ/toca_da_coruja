@@ -59,10 +59,3 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += list(static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))
-
-try:
-    if not User.objects.filter(username='AlbinoBJJ').exists():
-        User.objects.create_superuser('AlbinoBJJ', 'xadrezcabreuva@gmail.com', 'Chessc@br3uva')
-        print("Superusuário 'AlbinoBJJ' criado com sucesso!")
-except Exception as e:
-    print(f"Erro ao criar superuser: {e}")
