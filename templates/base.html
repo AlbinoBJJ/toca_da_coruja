@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Toca da Coruja{% endblock %}</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'torneios/style.css' %}?v=1.1">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="{% static 'torneios/logo.jpg' %}" alt="Logo" class="nav-logo-img">
+                <a href="{% url 'home' %}" class="nav-logo-text">Toca da Coruja 🦉</a>
+            </div>
+
+            <ul class="nav-menu">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'sobre' %}">Quem Somos</a></li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Torneios ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="{% url 'proximos_torneios' %}">Próximos Torneios</a></li>
+                        <li><a href="#">Resultados</a></li>
+                        <li><a href="#">Calendário (PDF)</a></li>
+                    </ul>
+                </li>
+
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'perfil' %}">Meu Perfil</a></li>
+                    <li>
+                        <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="nav-sair-btn">Sair</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Entrar</a></li>
+                    <li><a href="{% url 'cadastro' %}" class="nav-destaque">Cadastrar</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </header>
+
+    <main class="main-container">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <a href="https://wa.me/5511988825574?text=Olá!+Gostaria+de+informações+sobre+os+torneios+da+Toca+da+Coruja."
+       class="whatsapp-float"
+       target="_blank"
+       rel="noopener noreferrer">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+    </a>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <p><strong>Desenvolvedor</strong></p>
+                <a href="https://www.instagram.com/lucas.bbrito/" target="_blank">Lucas Bibiana de Brito</a>
+                <span>📞 +55 11 98882-5574</span>
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <div class="footer-section">
+                <p><strong>Ilustradora</strong></p>
+                <a href="https://www.instagram.com/deborailustracoes/" target="_blank">Debora dos Santos Brito</a>
+                <span>📞 +55 62 8225-9859</span>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 Toca da Coruja 🦉 - Todos os direitos reservados.
+        </div>
+    </footer>
+
+</body>
+</html>

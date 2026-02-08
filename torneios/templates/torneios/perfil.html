@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="perfil-header u-margin-bottom-30">
+    <h2 class="secao-titulo-azul">Meu Perfil</h2>
+    <p class="u-text-muted">Mantenha seus dados e ratings sempre atualizados.</p>
+</div>
+
+<div class="tabs">
+    <button class="tab-link active" onclick="openTab(event, 'pessoal')">Pessoal 👤</button>
+    <button class="tab-link" onclick="openTab(event, 'ratings')">Ratings 📈</button>
+    <button class="tab-link" onclick="openTab(event, 'plataformas')">Plataformas 🌐</button>
+    <button class="tab-link" onclick="openTab(event, 'historico')">Meus Torneios 🏆</button>
+</div>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="badge badge-breve u-full-width u-margin-bottom-20 u-text-center u-padding-message">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+<form method="POST" class="perfil-form">
+    {% csrf_token %}
+
+    <div id="pessoal" class="tab-content">
+        <div class="form-group">
+            {{ form.nome_completo.label_tag }}
+            {{ form.nome_completo }}
+        </div>
+        <div class="form-group">
+            {{ form.data_nascimento.label_tag }}
+            {{ form.data_nascimento }}
+        </div>
+        <div class="form-group">
+            {{ form.categoria.label_tag }}
+            {{ form.categoria }}
+            {% if form.categoria.errors %}
+                <div class="u-text-error">{{ form.categoria.errors }}</div>
+            {% endif %}
+            <small class="u-text-muted">Calculada automaticamente com base na idade.</small>
+        </div>
+        <div class="form-group">
+            {{ form.telefone.label_tag }}
+            {{ form.telefone }}
+        </div>
+        <div class="form-group">
+            {{ form.genero.label_tag }}
+            {{ form.genero }}
+        </div>
+    </div>
+
+    <div id="ratings" class="tab-content" style="display: none;">
+        <div class="form-group">
+            {{ form.id_cbx.label_tag }} 
+            {{ form.id_cbx }}
+        </div>
+        <div class="form-group">
+            {{ form.rating_cbx.label_tag }} 
+            {{ form.rating_cbx }}
+        </div>
+        <div class="form-group">
+            {{ form.rating_fide.label_tag }} 
+            {{ form.rating_fide }}
+        </div>
+
+        <div class="rating-local-container">
+            <p class="rating-local-label">RATING INTERNO 🦉</p>
+            <div class="rating-grid-single">
+                <div class="rating-card card-toca">
+                    <span>Pontuação na Toca</span>
+                    <strong class="rating-grande">{{ user.jogador.rating_local|default:0 }}</strong>
+                </div>
+            </div>
+            <p class="rating-local-ajuda">Este rating é atualizado pela administração após cada torneio oficial.</p>
+        </div>
+    </div>
+
+    <div id="plataformas" class="tab-content" style="display: none;">
+        <div class="plataforma-secao u-margin-bottom-30">
+            <div class="plataforma-titulo color-chess">
+                <img src="{% static 'torneios/logo_chess.png' %}" width="25" alt="Chess.com"> Chess.com
+            </div>
+            <div class="form-group">
+                {{ form.username_chesscom.label_tag }} 
+                {{ form.username_chesscom }}
+            </div>
+            {% if ratings_chesscom %}
+            <div class="rating-grid">
+                <div class="rating-card card-chess-blitz">
+                    <span>Blitz</span>
+                    <strong>{{ ratings_chesscom.blitz|default:"---" }}</strong>
+                </div>
+                <div class="rating-card card-chess-rapid">
+                    <span>Rápido</span>
+                    <strong>{{ ratings_chesscom.rapid|default:"---" }}</strong>
+                </div>
+                <div class="rating-card card-chess-bullet">
+                    <span>Bullet</span>
+                    <strong>{{ ratings_chesscom.bullet|default:"---" }}</strong>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <hr class="u-margin-y-20">
+
+        <div class="plataforma-secao">
+            <div class="plataforma-titulo color-lichess">
+                <img src="{% static 'torneios/logo_lichess.png' %}" width="25" alt="Lichess"> Lichess.org
+            </div>
+            <div class="form-group">
+                {{ form.username_lichess.label_tag }} 
+                {{ form.username_lichess }}
+            </div>
+            {% if ratings_lichess %}
+            <div class="rating-grid">
+                <div class="rating-card card-chess-blitz"><span>Blitz</span><strong>{{ ratings_lichess.blitz|default:"---" }}</strong></div>
+                <div class="rating-card card-chess-rapid"><span>Rápido</span><strong>{{ ratings_lichess.rapid|default:"---" }}</strong></div>
+                <div class="rating-card card-chess-bullet"><span>Bullet</span><strong>{{ ratings_lichess.bullet|default:"---" }}</strong></div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div id="historico" class="tab-content" style="display: none;">
+        <h3 class="secao-titulo-azul u-margin-bottom-20">Trajetória na Toca</h3>
+        {% if historico %}
+            <div class="table-responsive">
+                <table class="tabela-historico">
+                    <thead>
+                        <tr>
+                            <th>Torneio</th>
+                            <th>Data</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for torneio in historico %}
+                        <tr>
+                            <td><strong>{{ torneio.nome }}</strong></td>
+                            <td>{{ torneio.data|date:"d/m/Y" }}</td>
+                            <td><span class="badge badge-{{ torneio.status|lower }}">{{ torneio.get_status_display }}</span></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="u-text-muted">Nenhum torneio registrado ainda. 😊</p>
+        {% endif %}
+    </div>
+
+    <div class="perfil-acoes">
+        <button type="submit" class="btn-acao btn-inscricao u-full-width">Salvar Alterações</button>
+    </div>
+</form>
+
+<script>
+function openTab(evt, tabName) {
+    const contents = document.getElementsByClassName("tab-content");
+    for (let i = 0; i < contents.length; i++) { contents[i].style.display = "none"; }
+    const links = document.getElementsByClassName("tab-link");
+    for (let i = 0; i < links.length; i++) { links[i].classList.remove("active"); }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.classList.add("active");
+}
+
+document.getElementById('id_data_nascimento').addEventListener('change', function() {
+    const dataNascimento = new Date(this.value);
+    const campoCategoria = document.getElementById('id_categoria');
+    if (!isNaN(dataNascimento.getFullYear())) {
+        const anoAtual = 2026;
+        const idadeRef = anoAtual - dataNascimento.getFullYear();
+        let catSugerida = 'ABERTO';
+        if (idadeRef <= 8) catSugerida = 'U8';
+        else if (idadeRef <= 10) catSugerida = 'U10';
+        else if (idadeRef <= 12) catSugerida = 'U12';
+        else if (idadeRef <= 14) catSugerida = 'U14';
+        else if (idadeRef <= 16) catSugerida = 'U16';
+        else if (idadeRef <= 18) catSugerida = 'U18';
+        else if (idadeRef <= 20) catSugerida = 'U20';
+        else if (idadeRef >= 60) catSugerida = 'S60';
+        if (campoCategoria.value === "" || (campoCategoria.value !== 'ABERTO' && idadeRef < 60)) {
+            campoCategoria.value = catSugerida;
+        }
+    }
+});
+</script>
+{% endblock %}

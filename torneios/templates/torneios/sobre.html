@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Quem Somos - Toca da Coruja{% endblock %}
+
+{% block content %}
+<div class="main-container"> <article class="sobre-historia">
+        <h2 class="u-text-center u-margin-bottom-30">Nossa História: Da Paixão à Realidade</h2>
+        
+        <p>A <strong>Toca da Coruja</strong> é o fruto de uma trajetória de aprendizado, superação e, acima de tudo, amor pelo xadrez. Idealizado por <strong>Lucas Bibiana de Brito</strong>, professor de Educação Física, o projeto carrega a experiência adquirida entre 2011 e 2014 em Praia Grande — cidade referência na gestão esportiva. Ao retornar para Cabreúva, o objetivo era claro: aplicar esse conhecimento e transformar a realidade do xadrez local.</p>
+
+        <blockquote class="sobre-quote">
+            "Se eu não fizer por mim o que eu quero que aconteça, quem fará?"
+        </blockquote>
+
+        <p>O caminho não foi linear. Entre tentativas, tropeços e desistências, veio a lição mais valiosa: a <strong>autorresponsabilidade</strong>. Após anos esperando que o apoio externo ou o poder público fossem os protagonistas da mudança, Lucas compreendeu que a semente do xadrez só brotaria se ele mesmo assumisse as rédeas do plantio.</p>
+
+        <p>Com essa mentalidade, a Toca da Coruja, que teve um breve ciclo em 2023, renasce agora em <strong>2026</strong>. Como uma fênix — mantendo a sabedoria da coruja, mas com a força do recomeço —, voltamos dispostos a consolidar a modalidade em nossa região.</p>
+
+        <p>Não estamos aqui apenas para organizar jogos, mas para construir uma comunidade. Nossa missão é promover <strong>um torneio por mês</strong>, fomentar o crescimento técnico e humano dos nossos enxadristas e inspirar novos voluntários a abraçarem essa causa.</p>
+
+        <hr class="divisor-detalhe">
+
+        <h2 class="u-text-center">Quem Faz Acontecer</h2>
+        <p class="u-text-center u-text-muted">O professor Lucas não caminha sozinho. A Toca é movida pela união de amigos que compartilham o desejo de ver Cabreúva como um polo do xadrez.</p>
+
+        <section class="equipe-grid">
+            <div class="membro-card">
+                <img src="{% static 'torneios/lucas.jpg' %}" alt="Lucas Bibiana de Brito">
+                <h4>Lucas B. de Brito</h4>
+                <p>Idealizador & Professor</p>
+            </div>
+
+            <div class="membro-card">
+                <img src="{% static 'torneios/tiago.jpg' %}" alt="Tiago Spina">
+                <h4>Tiago Spina</h4>
+                <p>Idealizador & Professor</p>
+            </div>
+
+            <div class="membro-card">
+                <div class="membro-card">
+                    <img src="{% static 'torneios/dudu.jpeg' %}" alt="Eduardo Cardinali">
+                    <h4>Eduardo Cardinali</h4>
+                    <p>Entusiasta & Apoiador</p>
+                </div>
+            </div>
+        </section>
+    </article>
+</div>
+{% endblock %}

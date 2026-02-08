@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load markdown_deux_tags %}
+
+{% block content %}
+<div class="detalhe-container">
+    
+    <div class="torneio-banner">
+        {% if torneio.imagem_capa %}
+            <img src="{{ torneio.imagem_capa.url }}" alt="{{ torneio.nome }}">
+        {% else %}
+            <div class="torneio-banner-placeholder">
+                <h1 class="u-opacity-50">♟️ Toca da Coruja</h1>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="detalhe-header">
+        <div class="detalhe-info-principal">
+            <div class="status-container">
+                {% if torneio.status == 'CONFIRMAR' %}
+                    <span class="badge badge-confirmar">❓ A Confirmar</span>
+                {% elif torneio.status == 'BREVE' %}
+                    <span class="badge badge-breve">📢 Confirmado</span>
+                {% elif torneio.status == 'ABERTO' %}
+                    <span class="badge badge-aberto">✅ Inscrições Abertas</span>
+                {% elif torneio.status == 'ANDAMENTO' %}
+                    <span class="badge badge-andamento">⏳ Em Andamento</span>
+                {% else %}
+                    <span class="badge badge-encerrado">🏁 Finalizado</span>
+                {% endif %}
+            </div>
+
+            <h1 class="detalhe-titulo">{{ torneio.nome }}</h1>
+            <p class="detalhe-meta">
+                📍 <strong>Local:</strong> {{ torneio.local }} <br>
+                📅 <strong>Data:</strong> {{ torneio.data|date:"d/m/Y" }}
+            </p>
+        </div>
+
+        <div class="detalhe-card-inscricao">
+            {% if user.is_authenticated %}
+                {% if user.jogador in torneio.participantes.all %}
+                    <div class="mensagem-sucesso-inscrito">
+                        <p>✅ Você está inscrito!</p>
+                        <form action="{% url 'desistir_torneio' torneio.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-acao btn-cancelar u-font-xsmall">
+                                Cancelar Inscrição ❌
+                            </button>
+                        </form>
+                    </div>
+                {% elif torneio.status == 'ABERTO' %}
+                    <form action="{% url 'inscrever_torneio' torneio.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-acao btn-inscricao">
+                            Confirmar Inscrição 🏆
+                        </button>
+                    </form>
+                {% else %}
+                    <p class="u-text-muted">Inscrições não disponíveis.</p>
+                {% endif %}
+            {% else %}
+                <p class="u-margin-bottom-15 u-font-small">Entre para participar:</p>
+                <a href="{% url 'login' %}" class="btn-acao btn-inscricao">Fazer Login</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <hr class="divisor-detalhe">
+
+    <div class="descricao-torneio">
+        <h3 class="secao-titulo-azul u-margin-bottom-15">Regulamento e Detalhes</h3>
+        <div class="torneio-descricao-texto">
+            {{ torneio.descricao|markdown }}
+        </div>
+    </div>
+
+    <section class="lista-inscritos-section">
+        <div class="lista-inscritos-header">
+            <h3 class="secao-titulo-azul u-margin-0">👥 Jogadores Inscritos ({{ torneio.participantes.count }})</h3>
+            
+            {% if user.is_staff %}
+            <a href="{% url 'exportar_inscritos_csv' torneio.id %}" class="btn-acao btn-exportar u-font-xsmall">
+                Exportar CSV 📥
+            </a>
+            {% endif %}
+        </div>
+
+        <ul class="inscritos-ul">
+            {% for jogador in torneio.participantes.all %}
+                <li class="inscrito-li">
+                    <span>{{ forloop.counter }}. {{ jogador.nome_completo|default:jogador.user.username }}</span>
+                    <span class="inscrito-categoria">{{ jogador.categoria }}</span>
+                </li>
+            {% empty %}
+                <li class="inscrito-vazio">Ainda não há inscritos. Seja o primeiro! 🦉</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <div class="u-margin-top-20">
+        <a href="{% url 'proximos_torneios' %}" class="voltar-link">← Voltar para a lista</a>
+    </div>
+</div>
+{% endblock %}

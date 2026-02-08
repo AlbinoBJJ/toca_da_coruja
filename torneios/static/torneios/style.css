@@ -1,0 +1,581 @@
+/* ==========================================
+   1. VARIÁVEIS E CONFIGURAÇÕES GERAIS
+   ========================================== */
+:root {
+    --azul-toca: #004a99;
+    --azul-hover: #003366;
+    --branco: #ffffff;
+    --cinza-fundo: #f4f7f6;
+    --cinza-texto: #555555;
+    --cinza-claro: #eeeeee;
+    --verde-sucesso: #28a745;
+    --verde-fundo: #d4edda;
+    --coral-destaque: #ee635b;
+    --coral-hover: #d9534f;
+    --amarelo-destaque: #ffc107;
+    --shadow: 0 4px 15px rgba(0,0,0,0.05);
+    --border-radius: 12px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Comfortaa', cursive;
+    background-color: var(--cinza-fundo);
+    padding-top: 80px;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* ==========================================
+   2. CLASSES UTILITÁRIAS (Helpers)
+   ========================================== */
+.u-text-center { text-align: center; }
+.u-text-muted { color: #888; }
+.u-text-error { color: var(--coral-destaque); font-size: 0.85rem; font-weight: bold; }
+.u-margin-0 { margin: 0 !important; }
+.u-margin-top-20 { margin-top: 20px !important; }
+.u-margin-bottom-15 { margin-bottom: 15px !important; }
+.u-margin-bottom-20 { margin-bottom: 20px !important; }
+.u-margin-bottom-30 { margin-bottom: 30px !important; }
+.u-margin-y-20 { margin-top: 20px; margin-bottom: 20px; }
+.u-padding-x-large { padding-left: 40px; padding-right: 40px; }
+.u-padding-message { padding: 15px; text-transform: none; }
+.u-font-small { font-size: 0.9rem; }
+.u-font-xsmall { font-size: 0.8rem; }
+.u-opacity-50 { opacity: 0.5; }
+.u-full-width { width: 100% !important; }
+
+hr { border: 0; border-top: 1px solid #eee; margin: 20px 0; }
+
+/* ==========================================
+   3. BARRA DE NAVEGAÇÃO (NAVBAR)
+   ========================================== */
+.navbar {
+    background-color: var(--azul-toca);
+    width: 100%;
+    height: 70px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.nav-container {
+    max-width: 1100px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.nav-brand { 
+    display: flex; 
+    align-items: center; 
+    text-decoration: none !important; 
+}
+
+.nav-logo-img {
+    height: 50px; 
+    width: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 12px;
+    border: 2px solid white;
+}
+
+.nav-logo-text { 
+    color: var(--branco); 
+    font-weight: bold; 
+    font-size: 1.3rem;
+    text-decoration: none !important;
+}
+
+.nav-menu { list-style: none; display: flex; gap: 10px; align-items: center; }
+.nav-menu a, .nav-sair-btn {
+    color: var(--branco);
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: 0.3s;
+    font-size: 0.9rem;
+}
+
+.nav-menu a:hover, .nav-sair-btn:hover { background-color: var(--azul-hover); }
+.nav-destaque { background-color: var(--amarelo-destaque) !important; color: #000 !important; font-weight: bold; }
+.nav-sair-btn { background: none; border: none; cursor: pointer; font-family: inherit; }
+
+/* Dropdown */
+.dropdown { position: relative; }
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--branco);
+    min-width: 180px;
+    top: 100%;
+    left: 0;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+.dropdown:hover .dropdown-content { display: block; }
+.dropdown-content a { color: #333 !important; display: block; padding: 12px 20px; border-bottom: 1px solid #eee; text-decoration: none; }
+.dropdown-content a:hover { background-color: #f4f4f4; }
+
+/* ==========================================
+   4. ESTRUTURA E CONTAINERS
+   ========================================== */
+.main-container {
+    flex: 1 0 auto;
+    max-width: 900px;
+    width: 100%;
+    margin: 20px auto;
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    display: block;
+}
+
+/* ==========================================
+   5. COMPONENTES (BOTÕES E BADGES)
+   ========================================== */
+.btn-acao {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    font-size: 0.95rem;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: center;
+}
+.btn-acao:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+/* Cores de Botões */
+.btn-inscricao { background-color: var(--verde-sucesso); color: white; }
+.btn-detalhes { background-color: var(--azul-toca); color: white; }
+.btn-cancelar { background-color: #f8d7da; color: #721c24; }
+.btn-exportar { background-color: #218838; color: white; }
+.btn-coral { 
+    background-color: var(--coral-destaque) !important; 
+    color: white !important; 
+}
+.btn-coral:hover { 
+    background-color: var(--coral-hover) !important; 
+    box-shadow: 0 6px 20px rgba(238, 99, 91, 0.3);
+}
+
+/* Badges */
+.badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    display: inline-block;
+    text-transform: uppercase;
+}
+.badge-confirmar { background-color: #e3f2fd; color: #007bff; border: 1px solid #b8daff; }
+.badge-breve { background-color: var(--verde-fundo); color: #155724; border: 1px solid #c3e6cb; }
+.badge-aberto { background-color: var(--verde-sucesso); color: white; }
+.badge-andamento { background-color: #343a40; color: #ffffff; }
+.badge-encerrado { background-color: #f8d7da; color: #dc3545; border: 1px solid #f5c6cb; }
+
+/* ==========================================
+   6. RATINGS E PLATAFORMAS (PERFIL)
+   ========================================== */
+.rating-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.rating-card {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    border-bottom: 4px solid #ddd;
+}
+
+.rating-card strong { font-size: 1.8rem; color: #333; display: block; margin-bottom: 5px; }
+.rating-card span { font-size: 0.8rem; text-transform: uppercase; font-weight: bold; color: #777; }
+
+/* Bordas Temáticas */
+.card-chess-blitz { border-bottom-color: #81b64c !important; }
+.card-chess-rapid { border-bottom-color: #fa9c1b !important; }
+.card-chess-bullet { border-bottom-color: #ef3e33 !important; }
+.card-toca { border-bottom: 4px solid var(--azul-toca) !important; background-color: var(--branco); }
+
+/* Rating Local */
+.rating-local-container {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #fff9e6;
+    border-radius: var(--border-radius);
+    border-left: 6px solid var(--amarelo-destaque);
+}
+
+.rating-local-label {
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--azul-toca);
+    margin-bottom: 15px;
+}
+
+.rating-grid-single {
+    display: grid;
+    grid-template-columns: 1fr;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.rating-grande {
+    font-size: 3rem !important;
+    color: var(--azul-toca);
+}
+
+.rating-local-ajuda {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #888;
+    margin-top: 15px;
+}
+
+.plataforma-titulo { font-weight: bold; font-size: 1.1rem; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+.color-chess { color: #81b64c; }
+.color-lichess { color: #333; }
+
+/* ==========================================
+   7. CARDS DE TORNEIO E LISTAS
+   ========================================== */
+.lista-torneios {
+    display: flex;
+    flex-direction: column; 
+    gap: 40px;              
+    width: 100%;            
+    margin-top: 20px;
+}
+
+.torneio-card-horizontal {
+    width: 100%;            
+    background-color: var(--branco);
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column; 
+    overflow: hidden; /* Importante para o zoom não "vazar" do card */
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efeito de levante no card e sombra mais forte */
+.torneio-card-horizontal:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+.torneio-mini-banner {
+    width: 100%;
+    height: 250px; 
+    flex-shrink: 0;
+    overflow: hidden; /* Corta a imagem quando ela cresce no zoom */
+    position: relative;
+}
+
+.torneio-mini-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease; /* Transição suave do zoom */
+}
+
+/* --- O EFEITO DE ZOOM AQUI --- */
+.torneio-card-horizontal:hover .torneio-mini-banner img {
+    transform: scale(1.1); /* Aumenta a imagem em 10% */
+}
+
+.torneio-info-resumo {
+    padding: 30px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.torneio-acoes-lista {
+    padding: 0 30px 30px 30px;
+}
+
+.acoes-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.acoes-wrapper .btn-acao {
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem;
+    z-index: 2; /* Garante que o botão seja clicável sobre qualquer efeito */
+}
+
+/* ==========================================
+   8. FORMULÁRIOS (GERAL)
+   ========================================== */
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; font-weight: bold; margin-bottom: 8px; color: #444; }
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.form-help {
+    display: block;
+    font-size: 0.75rem;
+    margin-top: 5px;
+    line-height: 1.2;
+}
+
+.perfil-acoes {
+    margin-top: 35px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+/* ==========================================
+   9. TABS E TABELAS (PERFIL)
+   ========================================== */
+.tabs { margin-bottom: 30px; display: flex; gap: 5px; background: #eee; padding: 5px; border-radius: 12px; }
+.tab-link { padding: 12px 15px; cursor: pointer; border: none; background: none; font-weight: bold; flex: 1; border-radius: 8px; color: #666; transition: 0.3s; }
+.tab-link.active { background-color: var(--branco); color: var(--azul-toca); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+
+.table-responsive { overflow-x: auto; }
+.tabela-historico { width: 100%; border-collapse: collapse; margin-top: 10px; }
+.tabela-historico th { text-align: left; padding: 12px; background: #f8f9fa; border-bottom: 2px solid #eee; color: var(--azul-toca); }
+.tabela-historico td { padding: 12px; border-bottom: 1px solid #eee; font-size: 0.95rem; }
+
+/* ==========================================
+   10. RODAPÉ E WHATSAPP
+   ========================================== */
+.footer { background-color: var(--azul-toca); color: var(--branco); padding: 40px 20px 20px; margin-top: auto; }
+.footer-container { max-width: 1100px; margin: 0 auto; display: flex; justify-content: center; gap: 60px; flex-wrap: wrap; }
+.footer-section { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.footer-section a { color: var(--amarelo-destaque); text-decoration: none; font-weight: bold; }
+.footer-divider { width: 1px; height: 60px; background-color: rgba(255,255,255,0.2); }
+
+.whatsapp-float { position: fixed; width: 60px; height: 60px; bottom: 40px; right: 40px; background-color: #25d366; border-radius: 50px; display: flex; align-items: center; justify-content: center; box-shadow: 2px 2px 10px rgba(0,0,0,0.2); z-index: 1100; transition: 0.3s; color: white; font-size: 30px; text-decoration: none; }
+.whatsapp-float:hover { transform: scale(1.1); background-color: #128c7e; }
+
+/* ==========================================
+   11. TELAS DE AUTENTICAÇÃO (Login/Cadastro)
+   ========================================== */
+.auth-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 200px);
+    padding: 20px;
+}
+
+.auth-container {
+    max-width: 450px;
+    width: 100%;
+    background: var(--branco);
+    padding: 40px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.auth-header h2 {
+    color: var(--azul-toca);
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+}
+
+.auth-header p {
+    color: #777;
+    font-size: 0.9rem;
+}
+
+.auth-form .form-group input {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid #edf2f7;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: #f8fafc;
+}
+
+.auth-form .form-group input:focus {
+    outline: none;
+    border-color: var(--azul-toca);
+    background-color: var(--branco);
+    box-shadow: 0 0 0 4px rgba(0, 74, 153, 0.1);
+}
+
+.auth-form input[type="checkbox"] {
+    width: auto !important;
+    margin-right: 10px;
+}
+
+.auth-form .form-group label {
+    margin-top: 10px;
+}
+
+.auth-divider {
+    margin: 25px 0;
+    opacity: 0.5;
+}
+
+.auth-footer-text {
+    font-size: 0.9rem;
+    color: var(--cinza-texto);
+}
+
+.auth-link {
+    color: var(--azul-toca);
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.auth-link:hover { text-decoration: underline; }
+
+.auth-form ul.errorlist {
+    list-style: none;
+    padding: 0;
+    margin: 5px 0 15px 0;
+    color: var(--coral-destaque);
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+/* ==========================================
+   12. PÁGINA SOBRE (HISTÓRIA E EQUIPE)
+   ========================================== */
+.sobre-historia {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+.sobre-historia p {
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+.sobre-quote {
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--azul-toca);
+    border-left: 4px solid var(--amarelo-destaque);
+    padding: 10px 20px;
+    margin: 30px 0;
+    background: #fffdf5;
+}
+
+.divisor-detalhe {
+    margin: 40px 0;
+    border-top: 2px dashed #eee;
+}
+
+.equipe-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.membro-card {
+    text-align: center;
+    background: var(--branco);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    transition: transform 0.3s ease;
+}
+
+.membro-card:hover {
+    transform: translateY(-5px);
+}
+
+.membro-card img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--cinza-claro);
+    margin-bottom: 15px;
+    box-shadow: var(--shadow);
+}
+
+.membro-card h4 {
+    color: var(--azul-toca);
+    margin-bottom: 5px;
+}
+
+.membro-card p {
+    font-size: 0.9rem;
+    color: #777;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+/* ==========================================
+   13. RESPONSIVIDADE (MEDIA QUERIES)
+   ========================================= */
+
+/* Desktop / Telas Grandes */
+@media (max-width: 992px) {
+    .main-container {
+        margin: 10px;
+        padding: 20px;
+    }
+}
+
+/* Tablets e Celulares */
+@media (max-width: 768px) {
+    .nav-menu { display: none; }
+    .footer-divider { display: none; }
+    
+    .lista-torneios {
+        /* No celular, os cards ocupam a largura quase toda */
+        grid-template-columns: 1fr; 
+    }
+
+    .nav-container {
+        justify-content: center;
+    }
+}

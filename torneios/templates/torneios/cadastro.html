@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-container">
+        <div class="auth-header">
+            <h2>Junte-se à Toca! 🦉</h2>
+            <p>Crie sua conta para participar dos nossos torneios.</p>
+        </div>
+        
+        <form method="POST" class="auth-form">
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
+                    {{ field }} 
+                    
+                    {% if field.help_text %}
+                        <small class="form-help u-text-muted">{{ field.help_text|safe }}</small>
+                    {% endif %}
+
+                    {% for error in field.errors %}
+                        <span class="u-text-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="btn-acao btn-coral u-full-width u-margin-top-20">
+                Criar Minha Conta 🏆
+            </button>
+        </form>
+
+        <hr class="auth-divider">
+
+        <p class="auth-footer-text u-text-center">
+            Já tem uma conta? <a href="{% url 'login' %}" class="auth-link">Faça login aqui</a>.
+        </p>
+    </div>
+</div>
+
+<script>
+    // Lógica de cálculo de categoria
+    const campoData = document.getElementById('id_data_nascimento');
+    const campoCheckAberto = document.querySelector('input[name="quer_jogar_aberto"]');
+    const campoCategoria = document.getElementById('id_categoria');
+
+    function atualizarCategoria() {
+        const dataNascimento = new Date(campoData.value);
+        const querAberto = campoCheckAberto ? campoCheckAberto.checked : false;
+
+        if (querAberto) {
+            campoCategoria.value = 'ABERTO';
+            return;
+        }
+
+        if (!isNaN(dataNascimento.getFullYear())) {
+            const anoAtual = 2026; // Mantendo o padrão do seu projeto
+            const idadeRef = anoAtual - dataNascimento.getFullYear();
+
+            let novaCategoria = 'ABERTO';
+            if (idadeRef < 8) novaCategoria = 'U8';
+            else if (idadeRef < 10) novaCategoria = 'U10';
+            else if (idadeRef < 12) novaCategoria = 'U12';
+            else if (idadeRef < 14) novaCategoria = 'U14';
+            else if (idadeRef < 16) novaCategoria = 'U16';
+            else if (idadeRef < 18) novaCategoria = 'U18';
+            else if (idadeRef < 20) novaCategoria = 'U20';
+            else if (idadeRef >= 60) novaCategoria = 'S60';
+
+            campoCategoria.value = novaCategoria;
+        }
+    }
+
+    if(campoData) campoData.addEventListener('change', atualizarCategoria);
+    if(campoCheckAberto) campoCheckAberto.addEventListener('change', atualizarCategoria);
+</script>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="u-text-center u-margin-bottom-30">Próximos Torneios 🏆</h2>
+
+<div class="lista-torneios">
+    {% if torneios %}
+        {% for torneio in torneios %}
+            <div class="torneio-card-horizontal">
+                
+                <div class="torneio-mini-banner">
+                    {% if torneio.imagem_capa %}
+                        <img src="{{ torneio.imagem_capa.url }}" alt="{{ torneio.nome }}">
+                    {% else %}
+                        <div class="torneio-placeholder-mini">
+                            <span>♟️</span>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="torneio-info-resumo">
+                    <div class="status-container">
+                        {% if torneio.status == 'CONFIRMAR' %}
+                            <span class="badge badge-confirmar">❓ A Confirmar</span>
+                        {% elif torneio.status == 'BREVE' %}
+                            <span class="badge badge-breve">📢 Confirmado</span>
+                        {% elif torneio.status == 'ABERTO' %}
+                            <span class="badge badge-aberto">✅ Inscrições Abertas</span>
+                        {% elif torneio.status == 'ANDAMENTO' %}
+                            <span class="badge badge-andamento">⏳ Em Andamento</span>
+                        {% else %}
+                            <span class="badge badge-encerrado">🏁 Finalizado</span>
+                        {% endif %}
+                    </div>
+
+                    <h3 class="torneio-nome-lista">{{ torneio.nome }}</h3>
+                    <p class="torneio-meta-lista">
+                        📅 {{ torneio.data|date:"d/m/Y" }} | 📍 {{ torneio.local }}
+                    </p>
+                </div>
+
+                <div class="torneio-acoes-lista">
+                    <div class="acoes-wrapper">
+                        {% if torneio.status == 'ABERTO' %}
+                            <form action="{% url 'inscrever_torneio' torneio.id %}" method="POST" class="form-acao-full">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-acao btn-inscricao">
+                                    Inscrição ✍️
+                                </button>
+                            </form>
+                        {% endif %}
+
+                        {% if torneio.descricao %}
+                            <a href="{% url 'detalhe_torneio' torneio.id %}" class="btn-acao btn-detalhes">
+                                Detalhes 🔍
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div> {% endfor %}
+    {% else %}
+        <div class="lista-vazia">
+            <p>Não há torneios agendados no momento. 😊</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

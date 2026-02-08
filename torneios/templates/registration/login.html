@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-container">
+        <div class="auth-header">
+            <h2>Login na Toca 🦉</h2>
+            <p>Bem-vindo de volta, enxadrista!</p>
+        </div>
+        
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+            
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="u-text-error">{{ field.errors }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="btn-acao btn-coral u-full-width">
+                Entrar na Toca
+            </button>
+        </form>
+
+        <hr class="auth-divider">
+        
+        <p class="auth-footer-text u-text-center">
+            Novo por aqui? <br>
+            <a href="{% url 'cadastro' %}" class="auth-link">
+                Cadastre-se na Toca da Coruja
+            </a>
+        </p>
+    </div>
+</div>
+{% endblock %}
