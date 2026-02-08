@@ -11,6 +11,8 @@ from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from torneios import views
 from django.urls import reverse_lazy
+from django.contrib.auth.models import User
+from django.db.utils import IntegrityError
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -57,3 +59,11 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += list(static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))
+
+# Cria o admin automaticamente se ele não existir
+try:
+    if not User.objects.filter(username='admin').exists():
+        User.objects.create_superuser('AlbinoBJJ', 'xadrezcabreuva@gmail.com', 'Chessc@br3uva')
+        print("Superusuário criado com sucesso!")
+except:
+    pass
