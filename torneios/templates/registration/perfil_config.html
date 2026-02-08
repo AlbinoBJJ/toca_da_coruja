@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="perfil-header u-margin-bottom-30">
+    <div>
+        <h2 class="secao-titulo-azul">Configurações da Conta</h2>
+        <p class="u-text-muted">Gerencie seu acesso e segurança.</p>
+    </div>
+    <a href="{% url 'perfil' %}" class="btn-acao btn-detalhes btn-config-radius">
+        Voltar ao Perfil 👤
+    </a>
+</div>
+
+<div class="lista-torneios"> 
+    <div class="torneio-card-horizontal card-config">
+        <div class="torneio-info-resumo">
+            <h3>Dados de Acesso</h3>
+            <p class="u-text-muted u-margin-bottom-20">Esses dados são usados para o seu login.</p>
+            
+            <form method="POST" action="{% url 'atualizar_dados' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username">Nome de Usuário:</label>
+                    <input type="text" id="username" name="username" value="{{ user.username }}" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" name="email" value="{{ user.email }}" class="form-input">
+                </div>
+                <div class="u-margin-top-20">
+                    <button type="submit" class="btn-acao btn-inscricao btn-fit">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="torneio-card-horizontal card-config">
+        <div class="torneio-info-resumo">
+            <h3>Segurança</h3>
+            <p class="u-margin-bottom-20">Mantenha sua senha atualizada para proteger sua conta.</p>
+            <div class="acoes-wrapper">
+                <a href="{% url 'password_change' %}" class="btn-acao btn-detalhes btn-fit">Alterar Senha 🔒</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

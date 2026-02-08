@@ -48,6 +48,15 @@
     </header>
 
     <main class="main-container">
+        {% if messages %}
+            <div class="u-margin-bottom-20">
+                {% for message in messages %}
+                    <div class="badge u-full-width u-padding-message {% if message.tags == 'success' %}badge-breve{% else %}badge-encerrado{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
         {% block content %}
         {% endblock %}
     </main>

@@ -10,7 +10,7 @@ from django.http import HttpResponse
 from datetime import date
 from django.utils import timezone
 import requests
-
+from django.contrib.auth.models import User
 
 def home(request):
     # Filtra apenas o torneio que está com inscrições abertas
@@ -198,3 +198,28 @@ def proximos_torneios(request):
         'torneios': torneios
     })
 
+@login_required
+def atualizar_dados(request):
+    if request.method == 'POST':
+        user = request.user
+        novo_username = request.POST.get('username')
+        novo_email = request.POST.get('email')
+
+        # 1. Verifica se o username já existe em outro usuário
+        if User.objects.filter(username=novo_username).exclude(pk=user.pk).exists():
+            messages.error(request, "Este nome de usuário já está em uso.")
+            return redirect('perfil_config') # Nome da sua rota de configurações
+
+        # 2. Atualiza os dados
+        user.username = novo_username
+        user.email = novo_email
+        user.save()
+
+        messages.success(request, "Seus dados foram atualizados com sucesso! ✅")
+        return redirect('perfil_config')
+    
+    return redirect('perfil_config')
+
+@login_required
+def perfil_config(request):
+    return render(request, 'registration/perfil_config.html')

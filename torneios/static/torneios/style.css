@@ -1,5 +1,5 @@
 /* ==========================================
-   1. VARIÁVEIS E CONFIGURAÇÕES GERAIS
+    1. VARIÁVEIS E CONFIGURAÇÕES GERAIS
    ========================================== */
 :root {
     --azul-toca: #004a99;
@@ -38,7 +38,7 @@ body {
 }
 
 /* ==========================================
-   2. CLASSES UTILITÁRIAS (Helpers)
+    2. CLASSES UTILITÁRIAS (Helpers)
    ========================================== */
 .u-text-center { text-align: center; }
 .u-text-muted { color: #888; }
@@ -59,7 +59,7 @@ body {
 hr { border: 0; border-top: 1px solid #eee; margin: 20px 0; }
 
 /* ==========================================
-   3. BARRA DE NAVEGAÇÃO (NAVBAR)
+    3. BARRA DE NAVEGAÇÃO (NAVBAR)
    ========================================== */
 .navbar {
     background-color: var(--azul-toca);
@@ -138,7 +138,7 @@ hr { border: 0; border-top: 1px solid #eee; margin: 20px 0; }
 .dropdown-content a:hover { background-color: #f4f4f4; }
 
 /* ==========================================
-   4. ESTRUTURA E CONTAINERS
+    4. ESTRUTURA E CONTAINERS
    ========================================== */
 .main-container {
     flex: 1 0 auto;
@@ -152,8 +152,17 @@ hr { border: 0; border-top: 1px solid #eee; margin: 20px 0; }
     display: block;
 }
 
+/* NOVO: Header do Perfil com Flexbox */
+.perfil-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
 /* ==========================================
-   5. COMPONENTES (BOTÕES E BADGES)
+    5. COMPONENTES (BOTÕES E BADGES)
    ========================================== */
 .btn-acao {
     display: inline-block;
@@ -170,7 +179,6 @@ hr { border: 0; border-top: 1px solid #eee; margin: 20px 0; }
 }
 .btn-acao:hover { transform: translateY(-2px); filter: brightness(1.1); }
 
-/* Cores de Botões */
 .btn-inscricao { background-color: var(--verde-sucesso); color: white; }
 .btn-detalhes { background-color: var(--azul-toca); color: white; }
 .btn-cancelar { background-color: #f8d7da; color: #721c24; }
@@ -182,6 +190,12 @@ hr { border: 0; border-top: 1px solid #eee; margin: 20px 0; }
 .btn-coral:hover { 
     background-color: var(--coral-hover) !important; 
     box-shadow: 0 6px 20px rgba(238, 99, 91, 0.3);
+}
+
+/* Especial para botão arredondado de config */
+.btn-config-radius {
+    border-radius: 10px;
+    padding: 10px 20px;
 }
 
 /* Badges */
@@ -200,7 +214,7 @@ hr { border: 0; border-top: 1px solid #eee; margin: 20px 0; }
 .badge-encerrado { background-color: #f8d7da; color: #dc3545; border: 1px solid #f5c6cb; }
 
 /* ==========================================
-   6. RATINGS E PLATAFORMAS (PERFIL)
+    6. RATINGS E PLATAFORMAS (PERFIL)
    ========================================== */
 .rating-grid {
     display: grid;
@@ -221,13 +235,11 @@ hr { border: 0; border-top: 1px solid #eee; margin: 20px 0; }
 .rating-card strong { font-size: 1.8rem; color: #333; display: block; margin-bottom: 5px; }
 .rating-card span { font-size: 0.8rem; text-transform: uppercase; font-weight: bold; color: #777; }
 
-/* Bordas Temáticas */
 .card-chess-blitz { border-bottom-color: #81b64c !important; }
 .card-chess-rapid { border-bottom-color: #fa9c1b !important; }
 .card-chess-bullet { border-bottom-color: #ef3e33 !important; }
 .card-toca { border-bottom: 4px solid var(--azul-toca) !important; background-color: var(--branco); }
 
-/* Rating Local */
 .rating-local-container {
     margin-top: 30px;
     padding: 20px;
@@ -268,29 +280,28 @@ hr { border: 0; border-top: 1px solid #eee; margin: 20px 0; }
 .color-lichess { color: #333; }
 
 /* ==========================================
-   7. CARDS DE TORNEIO E LISTAS
+    7. CARDS DE TORNEIO E LISTAS
    ========================================== */
 .lista-torneios {
     display: flex;
     flex-direction: column; 
-    gap: 40px;              
-    width: 100%;            
+    gap: 40px; 
+    width: 100%; 
     margin-top: 20px;
 }
 
 .torneio-card-horizontal {
-    width: 100%;            
+    width: 100%; 
     background-color: var(--branco);
     border: 1px solid #ddd;
     border-radius: 15px;
     display: flex;
     flex-direction: column; 
-    overflow: hidden; /* Importante para o zoom não "vazar" do card */
+    overflow: hidden;
     box-shadow: var(--shadow);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Efeito de levante no card e sombra mais forte */
 .torneio-card-horizontal:hover {
     transform: translateY(-8px);
     box-shadow: 0 15px 35px rgba(0,0,0,0.15);
@@ -300,7 +311,7 @@ hr { border: 0; border-top: 1px solid #eee; margin: 20px 0; }
     width: 100%;
     height: 250px; 
     flex-shrink: 0;
-    overflow: hidden; /* Corta a imagem quando ela cresce no zoom */
+    overflow: hidden;
     position: relative;
 }
 
@@ -308,12 +319,11 @@ hr { border: 0; border-top: 1px solid #eee; margin: 20px 0; }
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease; /* Transição suave do zoom */
+    transition: transform 0.5s ease;
 }
 
-/* --- O EFEITO DE ZOOM AQUI --- */
 .torneio-card-horizontal:hover .torneio-mini-banner img {
-    transform: scale(1.1); /* Aumenta a imagem em 10% */
+    transform: scale(1.1);
 }
 
 .torneio-info-resumo {
@@ -338,21 +348,43 @@ hr { border: 0; border-top: 1px solid #eee; margin: 20px 0; }
     width: 100%;
     padding: 14px;
     font-size: 1rem;
-    z-index: 2; /* Garante que o botão seja clicável sobre qualquer efeito */
+    z-index: 2;
 }
 
 /* ==========================================
-   8. FORMULÁRIOS (GERAL)
+    8. FORMULÁRIOS (GERAL E CONFIG)
    ========================================== */
 .form-group { margin-bottom: 20px; }
-.form-group label { display: block; font-weight: bold; margin-bottom: 8px; color: #444; }
-.form-group input, .form-group select, .form-group textarea {
+
+.form-group label { 
+    display: block; 
+    font-weight: bold; 
+    margin-bottom: 8px; 
+    color: #444; 
+}
+
+.form-group input, 
+.form-group select, 
+.form-group textarea,
+.form-input {
     width: 100%;
     padding: 12px;
     border: 1px solid #ddd;
     border-radius: 8px;
     font-family: inherit;
     font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-input {
+    padding: 12px 15px;
+}
+
+.form-input:focus,
+.form-group input:focus {
+    outline: none;
+    border-color: var(--azul-toca); 
+    box-shadow: 0 0 0 2px rgba(0, 74, 153, 0.1);
 }
 
 .form-help {
@@ -362,6 +394,33 @@ hr { border: 0; border-top: 1px solid #eee; margin: 20px 0; }
     line-height: 1.2;
 }
 
+.card-config {
+    padding: 30px;
+}
+
+.btn-fit {
+    width: auto !important;
+    display: inline-block;
+    padding: 12px 25px;
+}
+
+/* ==========================================
+    9. TABS E TABELAS (PERFIL)
+   ========================================== */
+.tabs { margin-bottom: 30px; display: flex; gap: 5px; background: #eee; padding: 5px; border-radius: 12px; }
+.tab-link { padding: 12px 15px; cursor: pointer; border: none; background: none; font-weight: bold; flex: 1; border-radius: 8px; color: #666; transition: 0.3s; text-decoration: none; text-align: center; }
+.tab-link.active { background-color: var(--branco); color: var(--azul-toca); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+
+/* NOVO: Esconde conteúdos de abas que não estão ativos por padrão no CSS */
+.tab-content { display: none; }
+/* Mostra apenas se explicitamente marcado como ativo (para quando o JS ainda não carregou) */
+.tab-content.active-initial { display: block; }
+
+.table-responsive { overflow-x: auto; }
+.tabela-historico { width: 100%; border-collapse: collapse; margin-top: 10px; }
+.tabela-historico th { text-align: left; padding: 12px; background: #f8f9fa; border-bottom: 2px solid #eee; color: var(--azul-toca); }
+.tabela-historico td { padding: 12px; border-bottom: 1px solid #eee; font-size: 0.95rem; }
+
 .perfil-acoes {
     margin-top: 35px;
     padding-top: 20px;
@@ -369,19 +428,7 @@ hr { border: 0; border-top: 1px solid #eee; margin: 20px 0; }
 }
 
 /* ==========================================
-   9. TABS E TABELAS (PERFIL)
-   ========================================== */
-.tabs { margin-bottom: 30px; display: flex; gap: 5px; background: #eee; padding: 5px; border-radius: 12px; }
-.tab-link { padding: 12px 15px; cursor: pointer; border: none; background: none; font-weight: bold; flex: 1; border-radius: 8px; color: #666; transition: 0.3s; }
-.tab-link.active { background-color: var(--branco); color: var(--azul-toca); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-
-.table-responsive { overflow-x: auto; }
-.tabela-historico { width: 100%; border-collapse: collapse; margin-top: 10px; }
-.tabela-historico th { text-align: left; padding: 12px; background: #f8f9fa; border-bottom: 2px solid #eee; color: var(--azul-toca); }
-.tabela-historico td { padding: 12px; border-bottom: 1px solid #eee; font-size: 0.95rem; }
-
-/* ==========================================
-   10. RODAPÉ E WHATSAPP
+    10. RODAPÉ E WHATSAPP
    ========================================== */
 .footer { background-color: var(--azul-toca); color: var(--branco); padding: 40px 20px 20px; margin-top: auto; }
 .footer-container { max-width: 1100px; margin: 0 auto; display: flex; justify-content: center; gap: 60px; flex-wrap: wrap; }
@@ -393,7 +440,7 @@ hr { border: 0; border-top: 1px solid #eee; margin: 20px 0; }
 .whatsapp-float:hover { transform: scale(1.1); background-color: #128c7e; }
 
 /* ==========================================
-   11. TELAS DE AUTENTICAÇÃO (Login/Cadastro)
+    11. TELAS DE AUTENTICAÇÃO (Login/Cadastro)
    ========================================== */
 .auth-wrapper {
     display: flex;
@@ -429,18 +476,12 @@ hr { border: 0; border-top: 1px solid #eee; margin: 20px 0; }
 }
 
 .auth-form .form-group input {
-    width: 100%;
-    padding: 14px;
     border: 2px solid #edf2f7;
     border-radius: 10px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
     background-color: #f8fafc;
 }
 
 .auth-form .form-group input:focus {
-    outline: none;
-    border-color: var(--azul-toca);
     background-color: var(--branco);
     box-shadow: 0 0 0 4px rgba(0, 74, 153, 0.1);
 }
@@ -448,10 +489,6 @@ hr { border: 0; border-top: 1px solid #eee; margin: 20px 0; }
 .auth-form input[type="checkbox"] {
     width: auto !important;
     margin-right: 10px;
-}
-
-.auth-form .form-group label {
-    margin-top: 10px;
 }
 
 .auth-divider {
@@ -484,7 +521,7 @@ hr { border: 0; border-top: 1px solid #eee; margin: 20px 0; }
 }
 
 /* ==========================================
-   12. PÁGINA SOBRE (HISTÓRIA E EQUIPE)
+    12. PÁGINA SOBRE (HISTÓRIA E EQUIPE)
    ========================================== */
 .sobre-historia {
     max-width: 800px;
@@ -527,9 +564,7 @@ hr { border: 0; border-top: 1px solid #eee; margin: 20px 0; }
     transition: transform 0.3s ease;
 }
 
-.membro-card:hover {
-    transform: translateY(-5px);
-}
+.membro-card:hover { transform: translateY(-5px); }
 
 .membro-card img {
     width: 150px;
@@ -541,10 +576,7 @@ hr { border: 0; border-top: 1px solid #eee; margin: 20px 0; }
     box-shadow: var(--shadow);
 }
 
-.membro-card h4 {
-    color: var(--azul-toca);
-    margin-bottom: 5px;
-}
+.membro-card h4 { color: var(--azul-toca); margin-bottom: 5px; }
 
 .membro-card p {
     font-size: 0.9rem;
@@ -554,10 +586,9 @@ hr { border: 0; border-top: 1px solid #eee; margin: 20px 0; }
 }
 
 /* ==========================================
-   13. RESPONSIVIDADE (MEDIA QUERIES)
+    13. RESPONSIVIDADE (MEDIA QUERIES)
    ========================================= */
 
-/* Desktop / Telas Grandes */
 @media (max-width: 992px) {
     .main-container {
         margin: 10px;
@@ -565,17 +596,12 @@ hr { border: 0; border-top: 1px solid #eee; margin: 20px 0; }
     }
 }
 
-/* Tablets e Celulares */
 @media (max-width: 768px) {
     .nav-menu { display: none; }
     .footer-divider { display: none; }
+    .lista-torneios { grid-template-columns: 1fr; }
+    .nav-container { justify-content: center; }
     
-    .lista-torneios {
-        /* No celular, os cards ocupam a largura quase toda */
-        grid-template-columns: 1fr; 
-    }
-
-    .nav-container {
-        justify-content: center;
-    }
+    /* No mobile, o botão de config desce */
+    .perfil-header { flex-direction: column; text-align: center; }
 }

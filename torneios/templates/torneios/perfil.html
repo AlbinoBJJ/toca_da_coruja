@@ -3,8 +3,13 @@
 
 {% block content %}
 <div class="perfil-header u-margin-bottom-30">
-    <h2 class="secao-titulo-azul">Meu Perfil</h2>
-    <p class="u-text-muted">Mantenha seus dados e ratings sempre atualizados.</p>
+    <div>
+        <h2 class="secao-titulo-azul">Meu Perfil</h2>
+        <p class="u-text-muted">Mantenha seus dados e ratings sempre atualizados.</p>
+    </div>
+    <a href="{% url 'perfil_config' %}" class="btn-acao btn-detalhes btn-config-radius">
+        Configurações ⚙️
+    </a>
 </div>
 
 <div class="tabs">
@@ -25,7 +30,7 @@
 <form method="POST" class="perfil-form">
     {% csrf_token %}
 
-    <div id="pessoal" class="tab-content">
+    <div id="pessoal" class="tab-content active-initial">
         <div class="form-group">
             {{ form.nome_completo.label_tag }}
             {{ form.nome_completo }}
@@ -52,7 +57,7 @@
         </div>
     </div>
 
-    <div id="ratings" class="tab-content" style="display: none;">
+    <div id="ratings" class="tab-content">
         <div class="form-group">
             {{ form.id_cbx.label_tag }} 
             {{ form.id_cbx }}
@@ -78,7 +83,7 @@
         </div>
     </div>
 
-    <div id="plataformas" class="tab-content" style="display: none;">
+    <div id="plataformas" class="tab-content">
         <div class="plataforma-secao u-margin-bottom-30">
             <div class="plataforma-titulo color-chess">
                 <img src="{% static 'torneios/logo_chess.png' %}" width="25" alt="Chess.com"> Chess.com
@@ -89,18 +94,9 @@
             </div>
             {% if ratings_chesscom %}
             <div class="rating-grid">
-                <div class="rating-card card-chess-blitz">
-                    <span>Blitz</span>
-                    <strong>{{ ratings_chesscom.blitz|default:"---" }}</strong>
-                </div>
-                <div class="rating-card card-chess-rapid">
-                    <span>Rápido</span>
-                    <strong>{{ ratings_chesscom.rapid|default:"---" }}</strong>
-                </div>
-                <div class="rating-card card-chess-bullet">
-                    <span>Bullet</span>
-                    <strong>{{ ratings_chesscom.bullet|default:"---" }}</strong>
-                </div>
+                <div class="rating-card card-chess-blitz"><span>Blitz</span><strong>{{ ratings_chesscom.blitz|default:"---" }}</strong></div>
+                <div class="rating-card card-chess-rapid"><span>Rápido</span><strong>{{ ratings_chesscom.rapid|default:"---" }}</strong></div>
+                <div class="rating-card card-chess-bullet"><span>Bullet</span><strong>{{ ratings_chesscom.bullet|default:"---" }}</strong></div>
             </div>
             {% endif %}
         </div>
@@ -125,7 +121,7 @@
         </div>
     </div>
 
-    <div id="historico" class="tab-content" style="display: none;">
+    <div id="historico" class="tab-content">
         <h3 class="secao-titulo-azul u-margin-bottom-20">Trajetória na Toca</h3>
         {% if historico %}
             <div class="table-responsive">
@@ -161,9 +157,13 @@
 <script>
 function openTab(evt, tabName) {
     const contents = document.getElementsByClassName("tab-content");
-    for (let i = 0; i < contents.length; i++) { contents[i].style.display = "none"; }
+    for (let i = 0; i < contents.length; i++) { 
+        contents[i].style.display = "none"; 
+        contents[i].classList.remove("active-initial");
+    }
     const links = document.getElementsByClassName("tab-link");
     for (let i = 0; i < links.length; i++) { links[i].classList.remove("active"); }
+    
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.classList.add("active");
 }

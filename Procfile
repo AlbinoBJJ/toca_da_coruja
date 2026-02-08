@@ -1,0 +1,1 @@
+web: gunicorn toca_project.wsgi

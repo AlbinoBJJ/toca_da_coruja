@@ -28,12 +28,16 @@
 
         <hr class="auth-divider">
         
-        <p class="auth-footer-text u-text-center">
-            Novo por aqui? <br>
-            <a href="{% url 'cadastro' %}" class="auth-link">
-                Cadastre-se na Toca da Coruja
-            </a>
-        </p>
+        <div class="u-text-center u-margin-top-10">
+            <p><a href="{% url 'reset_password' %}" class="auth-link">Esqueci minha senha</a></p>
+            
+            <p class="auth-footer-text u-margin-top-10">
+                Novo por aqui? <br>
+                <a href="{% url 'cadastro' %}" class="auth-link">
+                    Cadastre-se na Toca da Coruja
+                </a>
+            </p>
+        </div>
     </div>
 </div>
 {% endblock %}
