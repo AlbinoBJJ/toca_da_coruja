@@ -16,7 +16,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-lx@qizf3nsk*aot5^8@bj
 DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 
 # ALLOWED_HOSTS
-ALLOWED_HOSTS = ['*'] 
+ALLOWED_HOSTS = ['toca-da-coruja.onrender.com', 'localhost', '127.0.0.1']
 
 # Definição dos Apps
 INSTALLED_APPS = [
@@ -93,11 +93,11 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Configuração do WhiteNoise
 STORAGES = {
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 
