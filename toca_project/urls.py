@@ -60,10 +60,9 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += list(static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))
 
-# Cria o admin automaticamente se ele não existir
 try:
-    if not User.objects.filter(username='admin').exists():
+    if not User.objects.filter(username='AlbinoBJJ').exists():
         User.objects.create_superuser('AlbinoBJJ', 'xadrezcabreuva@gmail.com', 'Chessc@br3uva')
-        print("Superusuário criado com sucesso!")
-except:
-    pass
+        print("Superusuário 'AlbinoBJJ' criado com sucesso!")
+except Exception as e:
+    print(f"Erro ao criar superuser: {e}")
