@@ -91,17 +91,19 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Configuração do WhiteNoise
+
+# Modifique o bloco STORAGES para ser mais simples
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        # Mudamos para o storage simples para evitar erros de manifest no Render
+        "BACKEND": "whitenoise.storage.StaticFilesStorage",
     },
 }
 
-
+# Garanta que essas duas linhas estejam logo abaixo ou no fim do arquivo
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
