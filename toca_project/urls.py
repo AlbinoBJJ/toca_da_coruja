@@ -11,8 +11,6 @@ from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from torneios import views
 from django.urls import reverse_lazy
-from django.contrib.auth.models import User
-from django.db.utils import IntegrityError
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,14 +25,14 @@ urlpatterns = [
         template_name='registration/password_reset_form.html',
         html_email_template_name='registration/password_reset_email.html',
         subject_template_name='registration/password_reset_subject.txt',
-        success_url=reverse_lazy('password_reset_done') # Garante que ele vá para a URL certa
+        success_url=reverse_lazy('password_reset_done')
     ), name='reset_password'),
 
     path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(
         template_name='registration/password_reset_done.html'
-    ), name='password_reset_done'), # O name precisa ser esse para o success_url acima funcionar
+    ), name='password_reset_done'),
 
-        path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
         template_name='registration/password_reset_confirm.html'
     ), name='password_reset_confirm'),
     
@@ -45,7 +43,7 @@ urlpatterns = [
     # Alteração de Senha (Dentro do sistema)
     path('password_change/', auth_views.PasswordChangeView.as_view(
         template_name='registration/password_change.html',
-        success_url=reverse_lazy('perfil')  # Redireciona direto para o perfil após sucesso
+        success_url=reverse_lazy('perfil')
     ), name='password_change'),
     
     path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(
@@ -57,5 +55,6 @@ urlpatterns = [
     path('perfil/atualizar/', views.atualizar_dados, name='atualizar_dados'),
 ]
 
-if settings.DEBUG:
-    urlpatterns += list(static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))
+# ESTA PARTE FOI AJUSTADA PARA FUNCIONAR NO RENDER:
+# Removi a trava do DEBUG para que as fotos apareçam no servidor online
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
